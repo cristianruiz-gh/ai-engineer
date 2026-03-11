@@ -1,0 +1,13 @@
+import math
+
+terms = 10000
+
+sum = 0
+for i in range(terms):
+    sign = (-1)**i
+    denominator = 2*i + 1
+    sum += sign / denominator
+result = sum * 4
+print(f"The result of the series is: {result}") 
+
+The result of the series is: 3.1414926535900345
