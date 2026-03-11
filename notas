@@ -1,0 +1,63 @@
+# imports
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+from autogen_ext.models.openai import OpenAIChatCompletionClient
+
+load_dotenv(override=True)
+
+#Obtener las key
+openai_api_key = os.getenv('OPENAI_API_KEY')
+google_api_key = os.getenv('GOOGLE_API_KEY')
+groq_api_key = os.getenv('GROQ_API_KEY')
+
+#Comprobar keys
+if openai_api_key:
+    print(f"OpenAI API Key exists and begins {openai_api_key[:8]}")
+else:
+    print("OpenAI API Key not set")
+
+if google_api_key:
+    print(f"Google API Key exists and begins {google_api_key[:2]}")
+else:
+    print("Google API Key not set (and this is optional)")
+
+if groq_api_key:
+    print(f"Grok API Key exists and begins {groq_api_key[:4]}")
+else:
+    print("Grok API Key not set (and this is optional)")
+
+#Enlaces Api key
+gemini_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
+groq_url = "https://api.groq.com/openai/v1"
+ollama_url = "http://localhost:11434/v1"
+
+#Montaje Api key
+gemini = OpenAI(api_key=google_api_key, base_url=gemini_url)
+groq = OpenAI(api_key=groq_api_key, base_url=groq_url)
+ollama = OpenAI(api_key="ollama", base_url=ollama_url)
+
+#Modelos IA
+GROQ_MODEL = "openai/gpt-oss-120b"
+GROQ_MODEL = "llama-3.3-70b-versatile"
+GEMINI_MODEL = "gemini-2.5-flash-lite"
+GEMINI_MODEL = "gemini-3-flash-preview"
+GEMINI_MODEL= "gemini-2.5-flash"
+OLLAMA_MODEL = "llama3.2"
+OPENAI_MODEL = "gpt-5-nano"
+CLAUDE_MODEL = "claude-3-5-haiku-latest"
+GROK_MODEL = "grok-4-fast-non-reasoning"
+
+#model-client
+model_client = OpenAIChatCompletionClient(
+    model="llama-3.3-70b-versatile",
+    api_key=os.environ.get("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1",
+    model_info={
+        "vision": False,
+        "function_calling": True,
+        "json_output": True,
+        "family": "llama3",
+        "structured_output": True,  # <--- Agrega esta línea para quitar el aviso
+    }
+)
